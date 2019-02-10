@@ -1,6 +1,6 @@
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class HelloSpringApp {
+public class SetterDemoApp {
 
     public static void main(String[] args) {
 
@@ -9,14 +9,18 @@ public class HelloSpringApp {
                 new ClassPathXmlApplicationContext("applicationContext.xml");
 
         // retrieve bean from spring container
-        Coach theCoach = context.getBean("trackCoach", Coach.class);
+        Coach cricketCoach = context.getBean("myCricketCoach", Coach.class);
 
         // call methods on the bean
-        System.out.println(theCoach.getDailyWorkout());
-        System.out.println(theCoach.getDailyFortune());
+        System.out.println(cricketCoach.getDailyWorkout());
+        System.out.println(cricketCoach.getDailyFortune());
 
-        // close context
+        // call toString method that called getters that injected by setters from bean from configuration file
+        System.out.println(cricketCoach);
+
+        // close the context
         context.close();
+
     }
 
 }
