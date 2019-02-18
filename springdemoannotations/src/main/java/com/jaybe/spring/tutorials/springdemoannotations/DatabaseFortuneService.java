@@ -3,9 +3,9 @@ package com.jaybe.spring.tutorials.springdemoannotations;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UnHappyFortuneService implements FortuneService {
+public class DatabaseFortuneService implements FortuneService {
     @Override
     public String getFortune() {
-        return "That is very bad day for you!";
+        return null;
     }
 }

@@ -9,9 +9,4 @@ public class HappyFortuneService implements FortuneService {
     public String getFortune() {
         return "That is your lucky day!";
     }
-
-    @Override
-    public String getFortuneTest() {
-        return "Test Fortune";
-    }
 }

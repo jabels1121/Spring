@@ -4,17 +4,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Component()
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+@Component
 public class TennisCoach implements Coach {
 
-    @Qualifier("unHappyFortuneService")
-    @Autowired // inject dependency by used field injection technique. Behind the scene used java Reflection mechanism.
+    /*@Qualifier("randomFortuneService")
+    @Autowired // inject dependency by used field injection technique. Behind the scene used java Reflection mechanism.*/
     private FortuneService fortuneService;
 
-    /*@Autowired // inject dependency by used class constructor
+    @Autowired // inject dependency by used class constructor
     public TennisCoach(@Qualifier("happyFortuneService") FortuneService fortuneService) {
+        System.out.println("TennisCoach: inside default constructor");
         this.fortuneService = fortuneService;
-    }*/
+    }
+
+    // define the init method
+    @PostConstruct
+    public void doMyStartupStuff() {
+        System.out.println(">> TennisCoach: inside doMyStartupStuff()");
+    }
+
+    // define the destroy method
+    @PreDestroy
+    public void doMyCleanupStuff() {
+        System.out.println(">> TennisCoach: inside doMyCleanupStuff()");
+    }
 
     /*@Autowired // inject dependency by used setter method
     public void setFortuneService(@Qualifier("unHappyFortuneService") FortuneService fortuneService) {
