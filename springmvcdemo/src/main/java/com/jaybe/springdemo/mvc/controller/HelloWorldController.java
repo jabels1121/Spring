@@ -3,6 +3,7 @@ package com.jaybe.springdemo.mvc.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,6 +32,21 @@ public class HelloWorldController {
         // update retrieved parameter to uppercase
         name = name.toUpperCase();
         String result = "Yo! " + name;
+
+        // assign updated parameter to the model object
+        model.addAttribute("message", result);
+
+        return "helloworld";
+    }
+
+    @RequestMapping("/processFormV3")
+    public String processFormV3(
+            //get parameter from request and assign them to variable used Spring annotation @RequestParam
+            @RequestParam("studentName")String name, Model model) {
+
+        // update retrieved parameter to uppercase
+        name = name.toUpperCase();
+        String result = "Yo from v3! " + name;
 
         // assign updated parameter to the model object
         model.addAttribute("message", result);
