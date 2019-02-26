@@ -25,6 +25,10 @@
 <body>
 <h2>Spring MVC - demo app!</h2>
 <hr><br>
-<button type="submit"><a href="showForm" >Show Form</a></button>
+<button type="submit"><a href="hello/showForm" >Hello Form</a></button>
+<br><br>
+<button type="submit"><a href="student/showForm" >Student Form</a></button>
+<br><br>
+<button type="submit"><a href="customer/showForm" >Customer Form</a></button>
 </body>
 </html>

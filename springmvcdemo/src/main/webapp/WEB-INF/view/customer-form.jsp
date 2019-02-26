@@ -1,0 +1,38 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Jabels
+  Date: 2/26/2019
+  Time: 10:59 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
+<html>
+<head>
+    <title>Customer Registration Form</title>
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+
+<i> Fill out the form. Asterisk (*) means required.</i>
+<br><br>
+<%--@elvariable id="customer" type="com.jaybe.springdemo.mvc.controller.Customer"--%>
+<form:form action="processForm" modelAttribute="customer">
+    First name: <form:input path="firstName"/>
+    <br><br>
+    Last name (*): <form:input path="lastName"/>
+    <from:errors path="lastName" cssClass="error"/>
+    <br><br>
+    Free passes: <form:input path="freePasses" />
+    <form:errors path="freePasses" cssClass="error"/>
+    <br><br>
+    <input type="submit" value="Submit"/>
+</form:form>
+
+</body>
+</html>

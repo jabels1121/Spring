@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 // 2. Add @Controller annotation
 @Controller
-// 1. Create Hello world controller
+@RequestMapping("/hello")
 public class HelloWorldController {
+// 1. Create Hello world controller
 
     // 3. Need a controller method to show the initial HTML form
     @RequestMapping("/showForm")
