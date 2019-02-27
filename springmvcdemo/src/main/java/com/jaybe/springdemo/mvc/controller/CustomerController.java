@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/customer")
@@ -39,7 +40,9 @@ public class CustomerController {
             @Valid @ModelAttribute("customer") Customer customer,
             BindingResult bindingResult
     ) {
-        //System.out.println("Customer lastName is: |" + customer.getLastName() + "|");
+        System.out.println("Customer lastName is: |" + customer.getLastName() + "|");
+
+        System.out.println("Binding result: " + bindingResult + "\n\n");
         if (bindingResult.hasErrors()) {
             return "customer-form";
         } else {

@@ -18,5 +18,8 @@
     Student Name: ${param.studentName}
     <hr>
     Message: ${message}
+
+    <hr><br>
+    <button type="submit"><a href="/" >Main menu</a></button>
 </body>
 </html>

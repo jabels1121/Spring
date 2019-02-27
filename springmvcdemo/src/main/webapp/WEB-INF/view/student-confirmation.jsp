@@ -23,5 +23,8 @@ Operating systems:
     <li> ${temp} </li>
     </c:forEach>
 </ul>
+
+<hr><br>
+<button type="submit"><a href="/" >Main menu</a></button>
 </body>
 </html>
