@@ -31,11 +31,10 @@ public class CustomerController {
 
     @GetMapping("/customerForm")
     public String addCustomerForm(Model model) {
-
         // create the customer object for add them to the Model
         Customer customer = new Customer();
 
-        // add customer object to the Model for using them into HTML, our jsp page.
+        // add customer object to the Model for using them in HTML, our jsp page.
         model.addAttribute("customer", customer);
 
         return "customer-form";
@@ -67,7 +66,7 @@ public class CustomerController {
         customerService.deleteCustomer(id);
 
         // return link to the list of customers after deleting the customer
-        return "list-customers";
+        return "redirect:/customer/list";
     }
 
 }
