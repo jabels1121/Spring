@@ -64,4 +64,33 @@ public class CustomerDAOImpl implements CustomerDAO {
         // delete the customer by received customer id
         currentSession.delete(customer);
     }
+
+    @Override
+    public List<Customer> searchCustomers(String customerName) {
+        // get current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        Query<Customer> query = null;
+
+        //
+        // only search by name if theSearchName is not empty
+        //
+        if (customerName != null && customerName.trim().length() > 0) {
+            // if customer name not equal null and not empty then create a query that return relevant customers list by customer name
+            // search for firstName or lastName ... case insensitive
+            query = currentSession.createQuery("from Customer where lower(firstName) like :name " +
+                    "or lower(lastName) like :name order by lastName", Customer.class);
+            query.setParameter("name", "%" + customerName.toLowerCase() + "%");
+
+        } else {// retrieving all customers if customerName null or empty
+            // create query that return all customers
+            query = currentSession.createQuery("from Customer order by lastName", Customer.class);
+        }
+
+        // execute the query
+        List<Customer> customers = query.getResultList();
+
+        // return the list of customers
+        return customers;
+    }
 }

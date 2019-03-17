@@ -60,13 +60,25 @@ public class CustomerController {
         return "customer-form";
     }
 
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     public String deleteCustomer(@RequestParam("customerId") int id) {
         // delete the customer using customerSerivce
         customerService.deleteCustomer(id);
 
         // return link to the list of customers after deleting the customer
         return "redirect:/customer/list";
+    }
+
+    @PostMapping("/search")
+    public String searchCustomers(@RequestParam("theSearchName") String name,
+                                  Model model) {
+        // search customers from the customer service by the received name
+        List<Customer> customers = customerService.searchCustomers(name);
+
+        // add customers to the model
+        model.addAttribute("customers", customers);
+
+        return "list-customers";
     }
 
 }
