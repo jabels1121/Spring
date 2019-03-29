@@ -37,6 +37,9 @@
                 Search customer: <input type="text" name="theSearchName" />
 
                 <input type="submit" value="Search" class="add-button" />
+
+                <input type="button" value="Refresh" class="add-button"
+                       onclick="window.location.href='list'; return false;" />
             </form:form>
 
             <%-- add out html table here --%>

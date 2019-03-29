@@ -59,7 +59,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         Session currentSession = sessionFactory.getCurrentSession();
 
         // create HQL query for deleting customer
-        Query<Customer> query = currentSession.createQuery("delete from Customer where id=:customerId", Customer.class);
+        Query<Customer> query = currentSession.createQuery("delete from Customer where id=:customerId");
         query.setParameter("customerId", customerId);
 
         // execute the query that delete the customer by id

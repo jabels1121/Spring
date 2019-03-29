@@ -4,6 +4,8 @@ import org.aspectj.lang.annotation.Pointcut;
 
 public class PointCutExpressions {
 
+    // setup pointcut declarations
+
     @Pointcut("execution(* com.jaybe.controller.*.*(..))")
     private void controllerPackagePointCut() {}
 
