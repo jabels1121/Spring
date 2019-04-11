@@ -13,7 +13,13 @@
 	<!-- Reference Bootstrap files -->
 	<link rel="stylesheet"
 		 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
+
+    <style>
+        body{
+            margin-left: 50px;
+        }
+    </style>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 	
 	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -36,7 +42,7 @@
 				<div style="padding-top: 30px" class="panel-body">
 
 					<!-- Login Form -->
-					<form:form action="${pageContext.request.contextPath}/authenticateTheUser"
+					<form action="${pageContext.request.contextPath}/authenticateTheUser"
 						  method="POST" class="form-horizontal">
 
 					    <!-- Place for messages: error, alert etc ... -->
@@ -79,7 +85,11 @@
 							</div>
 						</div>
 
-					</form:form>
+						<%-- Add csrf token by hand ... Bro! --%>
+						<input type="hidden"
+							   name="${_csrf.parameterName}"
+								value="${_csrf.token}">
+					</form>
 
 				</div>
 
