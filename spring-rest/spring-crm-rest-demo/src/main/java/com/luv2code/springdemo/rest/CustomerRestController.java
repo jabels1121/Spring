@@ -12,6 +12,8 @@ import java.util.List;
 @RequestMapping("/api")
 public class CustomerRestController {
 
+    private static final String CUSTOMER_NOT_FOUND = "Customer with id - %s doesn't exist";
+
     private final CustomerService customerService;
 
     @Autowired
@@ -36,7 +38,7 @@ public class CustomerRestController {
         Customer customer = customerService.getCustomer(customerId);
 
         if (customer == null) {
-            throw new CustomerNotFoundException("Customer with id - " + customerId + " doesn't exist");
+            throw new CustomerNotFoundException(String.format(CUSTOMER_NOT_FOUND, customerId));
         }
 
         //  get the customer from service
@@ -61,6 +63,20 @@ public class CustomerRestController {
         customerService.saveCustomer(customer);
 
         return customer;
+    }
+
+    // add mapping for DELETE /customers - delete an existing customer by id
+    @DeleteMapping(value = "/customers/{customerId}")
+    public String deleteCustomer(@PathVariable Integer customerId) {
+        Customer customer = customerService.getCustomer(customerId);
+
+        if (customer == null) {
+            throw new CustomerNotFoundException(String.format(CUSTOMER_NOT_FOUND, customerId));
+        }
+
+        customerService.deleteCustomer(customerId);
+
+        return "Deleted customer with id - " + customerId + ".";
     }
 
 }
