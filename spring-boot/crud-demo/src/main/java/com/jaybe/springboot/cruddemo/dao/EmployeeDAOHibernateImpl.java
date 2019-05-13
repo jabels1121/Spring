@@ -2,6 +2,7 @@ package com.jaybe.springboot.cruddemo.dao;
 
 import com.jaybe.springboot.cruddemo.entity.Employee;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -74,5 +75,15 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 
         // execute query
         query.executeUpdate();
+    }
+
+    @Override
+    public int getGreaterEmployeeId() {
+        // get the current hibernate session
+        Session session = entityManager.unwrap(Session.class);
+
+        Query sqlQuery = session.createSQLQuery("select id from employee_directory.employee order by id desc limit 1");
+
+        return sqlQuery.executeUpdate();
     }
 }

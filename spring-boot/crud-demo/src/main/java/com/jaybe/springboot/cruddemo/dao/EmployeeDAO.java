@@ -13,4 +13,6 @@ public interface EmployeeDAO {
     void save(Employee employee);
 
     void deleteById(int employeeId);
+
+    int getGreaterEmployeeId();
 }
