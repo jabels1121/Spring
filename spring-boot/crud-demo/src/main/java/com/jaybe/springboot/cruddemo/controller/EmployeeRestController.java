@@ -21,7 +21,7 @@ public class EmployeeRestController {
 
     @GetMapping(path = "/employees")
     public List<Employee> getAllEmployees() {
-        return employeeService.findAllEmployees();
+        return employeeService.findAll();
     }
 
     // add mapping for GET /employees/{employeeId}
@@ -31,7 +31,7 @@ public class EmployeeRestController {
             throw new EmployeeNotFoundException("Employee id must be greater than zero");
         }
 
-        var employee = employeeService.findEmployeeById(employeeId);
+        var employee = employeeService.findById(employeeId);
 
         if (employee == null) {
             throw new EmployeeNotFoundException("Employee with passed ID - " + employeeId + " doesn't exist!");
@@ -56,12 +56,9 @@ public class EmployeeRestController {
     // add mapping for PUT /employees - update existing employee
     @PutMapping(path = "/employees", produces = "application/json", consumes = "application/json")
     public Employee updateExistingEmployee(@RequestBody Employee employee) {
-        var greaterEmployeeId = employeeService.getGreaterEmployeeId();
 
-        if (employee.getId() > greaterEmployeeId || employee.getId() < 0) {
-            throw new EmployeeNotFoundException("Can't find employee for updating with ID - " + employee.getId() + ".");
-        }
         employeeService.save(employee);
+
         return employee;
     }
 

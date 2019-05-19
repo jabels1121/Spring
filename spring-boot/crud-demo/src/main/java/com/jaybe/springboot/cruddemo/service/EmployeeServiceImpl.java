@@ -1,51 +1,47 @@
 package com.jaybe.springboot.cruddemo.service;
 
-import com.jaybe.springboot.cruddemo.dao.EmployeeDAO;
+import com.jaybe.springboot.cruddemo.dao.EmployeeRepository;
 import com.jaybe.springboot.cruddemo.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
 
-    private final EmployeeDAO employeeDAO;
-
+    private EmployeeRepository employeeRepository;
+    
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository= employeeRepository;
     }
 
     @Transactional
     @Override
-    public List<Employee> findAllEmployees() {
-        return employeeDAO.findAllEmployees();
+    public List<Employee> findAll() {
+        return employeeRepository.findAll();
     }
 
     @Transactional
     @Override
-    public Employee findEmployeeById(int employeeId) {
-        return employeeDAO.findEmployeeById(employeeId);
+    public Employee findById(int employeeId) {
+        Optional<Employee> byId = employeeRepository.findById(employeeId);
+        return byId.orElse(null);
     }
 
     @Transactional
     @Override
     public void save(Employee employee) {
-        employeeDAO.save(employee);
+        employeeRepository.save(employee);
     }
 
     @Transactional
     @Override
     public void deleteById(int employeeId) {
-        employeeDAO.deleteById(employeeId);
+        employeeRepository.deleteById(employeeId);
     }
 
-    @Transactional
-    @Override
-    public int getGreaterEmployeeId() {
-        return employeeDAO.getGreaterEmployeeId();
-    }
 }
