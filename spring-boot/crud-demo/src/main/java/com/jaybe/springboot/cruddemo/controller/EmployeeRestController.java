@@ -1,19 +1,14 @@
 package com.jaybe.springboot.cruddemo.controller;
 
-import com.jaybe.springboot.cruddemo.dao.EmployeeDAO;
-import com.jaybe.springboot.cruddemo.dao.EmployeeDAOJpaImpl;
 import com.jaybe.springboot.cruddemo.entity.Employee;
 import com.jaybe.springboot.cruddemo.exception.EmployeeNotFoundException;
+import com.jaybe.springboot.cruddemo.model.DeletedEmployeeListResponse;
 import com.jaybe.springboot.cruddemo.service.EmployeeService;
-import com.jaybe.springboot.cruddemo.service.EmployeeServiceImpl;
-import org.hibernate.internal.SessionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import java.lang.reflect.Method;
 import java.util.*;
 
 @RestController
@@ -29,7 +24,7 @@ public class EmployeeRestController {
 
     @GetMapping(path = "/employees")
     public List<Employee> getAllEmployees() {
-        return employeeService.findAllEmployees();
+        return employeeService.findAll();
     }
 
     // add mapping for GET /employees/{employeeId}
@@ -76,35 +71,32 @@ public class EmployeeRestController {
     }
 
     @DeleteMapping(path = "/employees/deleting")
-    public ResponseEntity<Map<String, Object>> deleteFewEmployees(@RequestBody int[] employeeIds) {
-        for (int i = 0; i < employeeIds.length; i++) {
-            System.out.println(employeeIds[i]);
-        }
-
-        checkPassedIdsArray(employeeIds);
-
-        Map<String, Object> response = new HashMap<>();
-        List<Integer> deletedEmployeeIds = new ArrayList<>();
+    public DeletedEmployeeListResponse deleteFewEmployees(@RequestBody int[] employeeIds) {
+        DeletedEmployeeListResponse response = new DeletedEmployeeListResponse();
+        List<Integer> notFoundIds = new ArrayList<>();
+        List<Employee> deleteCandidate = new ArrayList<>();
 
         Arrays.stream(employeeIds)
                 .forEach(e -> {
-                    employeeService.deleteById(e);
-                    Employee employeeById = employeeService.findEmployeeById(e);
-                    if (employeeById == null) {
-                        deletedEmployeeIds.add(e);
+                    if (e < 0) {
+                        throw new EmployeeNotFoundException("Employee id must be greater than zero");
                     }
+                    var employee = employeeService.findById(e);
+                    if (employee == null) {
+                        notFoundIds.add(e);
+                    } else deleteCandidate.add(employee);
                 });
 
-        response.put("statusCode", HttpStatus.OK.value());
-        response.put("deletedEmployeeIds", deletedEmployeeIds);
-        response.put("timeStamp", System.currentTimeMillis());
+        deleteCandidate.stream()
+                .map(Employee::getId)
+                .forEach(employeeService::deleteById);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setNotFoundIds(notFoundIds);
+        response.setDeletedEmployee(deleteCandidate);
+        response.setTimeStamp(System.currentTimeMillis());
 
-    private void checkPassedIdsArray(int[] employeeIds) {
-        Arrays.stream(employeeIds)
-                .forEach(this::checkExistenceOfEmployee);
+        return response;
     }
 
     private Employee checkExistenceOfEmployee(int employeeId) {
@@ -112,7 +104,7 @@ public class EmployeeRestController {
             throw new EmployeeNotFoundException("Employee id must be greater than zero");
         }
 
-        var employee = employeeService.findEmployeeById(employeeId);
+        var employee = employeeService.findById(employeeId);
 
         if (employee == null) {
             throw new EmployeeNotFoundException("Employee with passed ID - " + employeeId + " doesn't exist!");
