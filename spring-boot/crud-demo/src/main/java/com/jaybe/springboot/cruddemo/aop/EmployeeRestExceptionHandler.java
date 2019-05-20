@@ -16,7 +16,7 @@ public class EmployeeRestExceptionHandler {
         EmployeeErrorResponse errorResponse = new EmployeeErrorResponse();
 
         // fill the error response fields
-        if (exc.getMessage().contains("not found")) {
+        if (exc.getMessage().contains("doesn't exist!")) {
             errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
         }
         if (exc.getMessage().contains("greater than zero")) {
@@ -25,7 +25,7 @@ public class EmployeeRestExceptionHandler {
         errorResponse.setMessage(exc.getMessage());
         errorResponse.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(errorResponse, exc.getMessage().contains("not found") ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, exc.getMessage().contains("doesn't exist!") ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

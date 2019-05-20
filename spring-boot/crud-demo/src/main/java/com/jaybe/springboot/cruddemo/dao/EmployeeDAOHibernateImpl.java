@@ -2,7 +2,6 @@ package com.jaybe.springboot.cruddemo.dao;
 
 import com.jaybe.springboot.cruddemo.entity.Employee;
 import org.hibernate.Session;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
